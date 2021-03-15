@@ -32,7 +32,7 @@ def get_klines(client, interval, num_klines, symbol):
         klines = next + klines
 
         remaining_klines -= 1000
-        time.sleep(1)
+        time.sleep(0.2)
 
     return klines
 
