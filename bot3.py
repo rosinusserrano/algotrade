@@ -140,34 +140,34 @@ client = Client()
 
 #config
 limit = 12000
-interval = Client.KLINE_INTERVAL_15MINUTE
+interval = Client.KLINE_INTERVAL_1HOUR
 window_size = 100
 comission = 0.001
 epochs = 1000
 learning_rate = 0.1
 
 
-source_symbols = ['LTCBNB']
-target_symbols = ['LTCBNB']
-
-train_bot(client, source_symbols, target_symbols, limit, interval, window_size, comission, epochs, learning_rate, archive=True)
-
-source_symbols = ['BNBEUR']
-target_symbols = ['BNBEUR']
-
-train_bot(client, source_symbols, target_symbols, limit, interval, window_size, comission, epochs, learning_rate, archive=True)
-
-source_symbols = ['ADAEUR']
-target_symbols = ['ADAEUR']
-
-train_bot(client, source_symbols, target_symbols, limit, interval, window_size, comission, epochs, learning_rate, archive=True)
-
 source_symbols = ['IOTABNB']
 target_symbols = ['IOTABNB']
 
 train_bot(client, source_symbols, target_symbols, limit, interval, window_size, comission, epochs, learning_rate, archive=True)
 
-source_symbols = ['ADABNB']
-target_symbols = ['ADABNB']
+# source_symbols = ['BNBEUR']
+# target_symbols = ['BNBEUR']
 
-train_bot(client, source_symbols, target_symbols, limit, interval, window_size, comission, epochs, learning_rate, archive=True)
+# train_bot(client, source_symbols, target_symbols, limit, interval, window_size, comission, epochs, learning_rate, archive=True)
+
+# source_symbols = ['ADAEUR']
+# target_symbols = ['ADAEUR']
+
+# train_bot(client, source_symbols, target_symbols, limit, interval, window_size, comission, epochs, learning_rate, archive=True)
+
+# source_symbols = ['IOTABNB']
+# target_symbols = ['IOTABNB']
+
+# train_bot(client, source_symbols, target_symbols, limit, interval, window_size, comission, epochs, learning_rate, archive=True)
+
+# source_symbols = ['ADABNB']
+# target_symbols = ['ADABNB']
+
+# train_bot(client, source_symbols, target_symbols, limit, interval, window_size, comission, epochs, learning_rate, archive=True)
