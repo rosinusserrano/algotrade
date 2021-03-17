@@ -77,7 +77,7 @@ def train_bot(client, source_symbols, target_symbols, limit, interval, window_si
 
     #get minimum length of data to cut them in euqal lengths
     length = min([len(data) for data in source_currencies + target_currencies])
-    split_length = max(int(length * 0.8), length - (1 * 4 * 24 * 7 * 2))    #save 80% of length for train val split
+    split_length = max(int(length * 0.8), length - (1 * 4 * 24 * 7 * 4))    #save 80% of length for train val split (max 4 weeks)
     source_currencies = [returns[-length:] for returns in source_currencies]
     target_currencies = [returns[-length:] for returns in target_currencies]
 
@@ -152,7 +152,7 @@ def train_bot(client, source_symbols, target_symbols, limit, interval, window_si
 client = Client()
 
 #config
-limit = 100000
+limit = 4 * 24 * 365 # 1 year
 interval = Client.KLINE_INTERVAL_15MINUTE
 window_size = 160
 comission = 0.001
