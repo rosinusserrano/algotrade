@@ -2,21 +2,31 @@ from tradenet import TradeNet
 import torch
 from torch.distributions.multinomial import Multinomial
 
-net = TradeNet(['BNBBTC', 'BNBETH'], 3)
-
-m = Multinomial(100, torch.ones([1,2,6]))
-
-x = m.sample()
-
-net.conv.bias.data = torch.ones([2])
-net.conv.bias.data[1] *= 0.5
-net.conv.weight.data = torch.ones([2,2,3])
-net.conv.weight.data[1] *= 0.5
+import binance_data as bd
+from binance.client import Client
 
 
-print(x)
 
-for p in net.parameters():
-    print(p)
 
-print(net.conv(x))
+
+torch.set_default_dtype(torch.float64)
+torch.set_printoptions(precision=10)
+
+
+
+
+
+client = Client()
+
+net = TradeNet(['LTCBNB'], ['LTCBNB'], 100)
+
+dir = 'BNBEUR-2.5'
+net.load_state_dict(torch.load(f'archive/{dir}/weights/network.pth'))
+
+symbol = dir.split('-')[0]
+
+returns = torch.tensor([[[b['return'] for b in bd.get_data(client, Client.KLINE_INTERVAL_15MINUTE, 20000, symbol)]]])
+
+m = net.walk(returns, returns, 0.001)
+v = net.validate(returns, returns, 0.001)
+print(v)

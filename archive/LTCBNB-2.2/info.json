@@ -1,0 +1,5 @@
+{
+    "window_size": 100,
+    "interval": "15m",
+    "comission": 0.001
+}

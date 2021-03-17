@@ -6,6 +6,7 @@ from binance.client import Client
 import matplotlib.pyplot as plt
 from pathlib import Path
 from uuid import uuid4
+import json
 
 # TORCH
 import torch
@@ -13,7 +14,7 @@ import torch.optim as optim
 
 # OWN
 import binance_data as bd
-from tradenet3 import TradeNet3
+from tradenet import TradeNet
 
 torch.set_default_dtype(torch.float64)
 
@@ -46,7 +47,17 @@ def train_bot(client, source_symbols, target_symbols, limit, interval, window_si
         Path(archive_dir + "/weights").mkdir(parents=True, exist_ok=True)
         print(archive_dir)
         ## add info file
-        # TODO
+        info = {
+            'source': source_symbols,
+            'target': target_symbols,
+            'limit': limit,
+            'interval': str(interval),
+            'window_size': window_size,
+            'comission': comission,
+        }
+        fp = open(f"{archive_dir}/info.json", "w")
+        json.dump(info, fp, sort_keys=True, indent=2)
+        fp.close()
 
     #get data for source symbols
     source_currencies = []
@@ -74,7 +85,7 @@ def train_bot(client, source_symbols, target_symbols, limit, interval, window_si
     source_prices = torch.stack(source_currencies).reshape([1, len(source_symbols), length]).double()
     target_prices = torch.stack(target_currencies).reshape([1, len(target_symbols), length]).double()
 
-    net = TradeNet3(source_symbols, target_symbols, window_size)
+    net = TradeNet(source_symbols, target_symbols, window_size)
 
     net.double()
 
@@ -106,6 +117,8 @@ def train_bot(client, source_symbols, target_symbols, limit, interval, window_si
         print("\n")
         print("buy and hold walk")
         print(bah_money_walk)
+
+    plt.clf()
 
     for n in range(len(target_symbols)):
         mw = [m[n] for m in money_walk]
@@ -139,12 +152,12 @@ def train_bot(client, source_symbols, target_symbols, limit, interval, window_si
 client = Client()
 
 #config
-limit = 12000
-interval = Client.KLINE_INTERVAL_1HOUR
-window_size = 100
+limit = 100000
+interval = Client.KLINE_INTERVAL_15MINUTE
+window_size = 160
 comission = 0.001
-epochs = 1000
-learning_rate = 0.1
+epochs = 3000
+learning_rate = 0.09
 
 
 source_symbols = ['IOTABNB']
@@ -152,22 +165,22 @@ target_symbols = ['IOTABNB']
 
 train_bot(client, source_symbols, target_symbols, limit, interval, window_size, comission, epochs, learning_rate, archive=True)
 
-# source_symbols = ['BNBEUR']
-# target_symbols = ['BNBEUR']
+source_symbols = ['BNBEUR']
+target_symbols = ['BNBEUR']
 
-# train_bot(client, source_symbols, target_symbols, limit, interval, window_size, comission, epochs, learning_rate, archive=True)
+train_bot(client, source_symbols, target_symbols, limit, interval, window_size, comission, epochs, learning_rate, archive=True)
 
-# source_symbols = ['ADAEUR']
-# target_symbols = ['ADAEUR']
+source_symbols = ['ADAEUR']
+target_symbols = ['ADAEUR']
 
-# train_bot(client, source_symbols, target_symbols, limit, interval, window_size, comission, epochs, learning_rate, archive=True)
+train_bot(client, source_symbols, target_symbols, limit, interval, window_size, comission, epochs, learning_rate, archive=True)
 
-# source_symbols = ['IOTABNB']
-# target_symbols = ['IOTABNB']
+source_symbols = ['IOTABNB']
+target_symbols = ['IOTABNB']
 
-# train_bot(client, source_symbols, target_symbols, limit, interval, window_size, comission, epochs, learning_rate, archive=True)
+train_bot(client, source_symbols, target_symbols, limit, interval, window_size, comission, epochs, learning_rate, archive=True)
 
-# source_symbols = ['ADABNB']
-# target_symbols = ['ADABNB']
+source_symbols = ['ADABNB']
+target_symbols = ['ADABNB']
 
-# train_bot(client, source_symbols, target_symbols, limit, interval, window_size, comission, epochs, learning_rate, archive=True)
+train_bot(client, source_symbols, target_symbols, limit, interval, window_size, comission, epochs, learning_rate, archive=True)
