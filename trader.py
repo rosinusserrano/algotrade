@@ -2,6 +2,7 @@ import sys
 import os
 import json
 from datetime import datetime
+from time import time
 
 import torch
 from binance.client import Client
@@ -86,22 +87,26 @@ returns = torch.tensor([[[val['return'] for val in bd.get_data(client, interval,
 next_pos = int(net(returns, position).sign().squeeze()[1].clone().detach().numpy())
 
 if next_pos != position:
+    print("\n\n")
+    date_string = datetime.fromtimestamp(time()).strftime("%Y-%m-%d %h:%m")
+    print(f"trading at {date_string}")
     # if trading
     money_file = open(f'{dir_path}/{bot_dir}.money')
-    money = money_file.readline().split(' ')[0]
-    print(money)
+    money, asset = tuple(money_file.readline().split(' '))
     money = float(money)
-    print(f"money {money}")
+    print(f"money: {money} {asset}")
     money_file.close()
 
     price = float(client.get_avg_price(symbol=symbol)['price'])
-    print(f"price {price}")
 
     if next_pos == -1:
         c = 'base'
         price = 1 / price
     else:
         c = 'quote'
+
+    print(f"price: {price} {asset}")
+
 
     new_money = (money / price) * 0.999
 
