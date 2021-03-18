@@ -63,7 +63,7 @@ def load_position():
     return pos
 
 # get net
-net = TradeNet([symbol], [symbol], 100)
+net = TradeNet([symbol], [symbol], window_size)
 net.load_state_dict(torch.load(f'{dir_path}/archive/{bot_dir}/weights/network.pth'))
 
 
