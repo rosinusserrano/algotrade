@@ -88,7 +88,7 @@ next_pos = int(net(returns, position).sign().squeeze()[1].clone().detach().numpy
 
 if next_pos != position:
     print("\n\n")
-    date_string = datetime.fromtimestamp(time()).strftime("%Y-%m-%d %h:%m")
+    date_string = datetime.fromtimestamp(time()).strftime("%Y-%m-%d %H:%M")
     print(f"trading at {date_string}")
     # if trading
     money_file = open(f'{dir_path}/{bot_dir}.money')
