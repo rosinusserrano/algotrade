@@ -1,0 +1,12 @@
+{
+  "comission": 0.001,
+  "interval": "15m",
+  "limit": 35040,
+  "source": [
+    "ADABNB"
+  ],
+  "target": [
+    "ADABNB"
+  ],
+  "window_size": 160
+}

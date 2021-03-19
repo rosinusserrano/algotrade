@@ -73,8 +73,8 @@ net.load_state_dict(torch.load(f'{dir_path}/archive/{bot_dir}/weights/network.pt
 ### IF ONLY VERIFYING
 if verify != False:
     returns = torch.tensor([[[val['return'] for val in bd.get_data(client, interval, window_size + verify, symbol)]]])
-    val = net.validate(returns, returns, comission)
-    print(f"Made {val.detach().numpy()} money in {verify} steps with interval size of {interval}")
+    val = net.walk(returns, returns, comission)
+    print(f"Made {val} money in {verify} steps with interval size of {interval}")
     exit()
 
 
@@ -116,4 +116,7 @@ if next_pos != position:
 
 
 
-
+else:
+    print(f"\n\n")
+    date_string = datetime.fromtimestamp(time()).strftime("%Y-%m-%d %H:%M")
+    print(f"Not trading at {date_string}")
